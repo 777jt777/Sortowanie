@@ -1,0 +1,27 @@
+
+template<typename TYPE, int SIZE> 
+class Array
+{
+private:
+
+TYPE* arr;
+
+public:
+
+Array<TYPE,SIZE> divideLeftArray(); // zwraca lewa polowe tablicy
+Array<TYPE,SIZE> divideRightArray(); // zwraca prawa polowe tablicy
+TYPE* getRandomArray(); //funkcja wpisujaca liczby losowe do tablicy
+TYPE* getRevesedArray(); //funkcja wpisujaca liczby w odwrotnej kolejnosci do kolejnosci sortowania
+TYPE* getArray_25(); //funkcja wpisujca liczby w 25 % posortowanych
+TYPE* getArray_50(); //funkcja wpisujca liczby w 50 % posortowanych
+TYPE* getArray_75(); //funkcja wpisujca liczby w 75 % posortowanych
+TYPE* getArray_95(); //funkcja wpisujca liczby w 85 % posortowanych
+TYPE* getArray_99(); //funkcja wpisujca liczby w 99 % posortowanych
+TYPE* getArray_99_7(); //funkcja wpisujca liczby w 99,7 % posortowanych
+
+
+void sort(); //algorytm sortowania
+
+Array(); //konstruktor bezparametryczny
+
+};
