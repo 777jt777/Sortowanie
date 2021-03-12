@@ -8,8 +8,7 @@ TYPE* arr;
 
 public:
 
-Array<TYPE,SIZE> divideLeftArray(); // zwraca lewa polowe tablicy
-Array<TYPE,SIZE> divideRightArray(); // zwraca prawa polowe tablicy
+void merge(int begin , int end); // rekurencyjna funkcja sortowania
 TYPE* getRandomArray(); //funkcja wpisujaca liczby losowe do tablicy
 TYPE* getRevesedArray(); //funkcja wpisujaca liczby w odwrotnej kolejnosci do kolejnosci sortowania
 TYPE* getArray_25(); //funkcja wpisujca liczby w 25 % posortowanych

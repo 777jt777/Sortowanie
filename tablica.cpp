@@ -8,31 +8,24 @@ Array<TYPE, SIZE>::Array()
         }
 
 template<typename TYPE, int SIZE>
-Array<TYPE,SIZE> Array<TYPE,SIZE>::divideLeftArray()
+void Array<TYPE,SIZE>::merge(int begin, int end)
     {   
-       for(int i=0;i<SIZE/2;i++)
-            
-            
+    int middle = (begin+end)/2; // srodek tablicy 
+    int* arr1 = new int[SIZE];
+    int* arr2 = new int[SIZE];
 
-
-
-
-    }
-
-template<typename TYPE, int SIZE>
-Array<TYPE,SIZE> Array<TYPE,SIZE>::divideRightArray()
-    {   
-        int a = sizeof(arr)/sizeof(*arr); // zliczenie elementow tablicy
-        a = a/2; //polowa tablicy
-        int* tmp = arr[a]; //wskaznik na element polowy tablicy
+    if(middle-begin>1)
+        merge(begin,middle-1); //koncowy przypadek: middle=1
+    if(end-middle>0) //bo middle =1
+        merge(middle,end); 
         
 
 
 
 
+
+
     }
-
-
 
 template<typename TYPE, int SIZE>
 TYPE* Array<TYPE,SIZE>::getRandomArray() 
@@ -41,8 +34,8 @@ TYPE* Array<TYPE,SIZE>::getRandomArray()
     for(int i=0; i<SIZE; i++)
         {
             arr[i]= std::rand();
-        }   
-        return arr; //zwraca adres pcozatku tablicy
+        }         
+        return arr; //zwraca adres poczatku tablicy
     }
 
 

@@ -1,22 +1,27 @@
 #include <iostream>
 #include "cstdlib"
-#include "memory"
 #include "tablica.cpp"
 
 
 int main(){
 
-const int size=100;
+const int size=10;
 
 Array<int,size> tmp;
-int* array= tmp.getRandomArray();
+int* array = tmp.getRandomArray();
 for(int i=0;i<size;i++)
     {
         if(i%10)
-        std::cout << i << " " ;
+        std::cout << array[i] << " " ;
         else
-        std:: cout << i << std::endl;
+        std:: cout << array[i] << std::endl;
     }   
+
+
+
+
+
+
 
 
     return 0;
