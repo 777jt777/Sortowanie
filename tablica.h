@@ -8,7 +8,8 @@ TYPE* arr;
 
 public:
 
-void merge(int begin , int end); // rekurencyjna funkcja sortowania
+void separate_and_merge(int begin , int end); // podzial i scalenie tablicy
+void merge_sorting(int begin, int end, TYPE Array[]); //funkcja sortowania
 TYPE* getRandomArray(); //funkcja wpisujaca liczby losowe do tablicy
 TYPE* getRevesedArray(); //funkcja wpisujaca liczby w odwrotnej kolejnosci do kolejnosci sortowania
 TYPE* getArray_25(); //funkcja wpisujca liczby w 25 % posortowanych
