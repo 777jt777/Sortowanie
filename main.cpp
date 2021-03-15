@@ -8,20 +8,13 @@ int main(){
 const int size=10;
 
 Array<int,size> tmp;
-int* array = tmp.getRandomArray();
-for(int i=0;i<size;i++)
-    {
-        if(i%10)
-        std::cout << array[i] << " " ;
-        else
-        std:: cout << array[i] << std::endl;
-    }   
 
-
-
-
-
-
+tmp.getRandomArray();
+tmp.DisplayArray();
+std::cout << std::endl << std::endl << std::endl << std::endl ;
+tmp.merge_sorting(0, size);
+tmp.check_array();
+tmp.DisplayArray();
 
 
     return 0;
