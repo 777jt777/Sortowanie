@@ -1,7 +1,9 @@
 #include "tablica.h"
 #include <iostream>
 #include <stdlib.h>
-
+#include <algorithm>
+#include <chrono>
+#include <utility>
 
 template<typename TYPE, int SIZE, int SEC_SIZE>
 Array<TYPE, SIZE, SEC_SIZE>::~Array()
@@ -10,8 +12,8 @@ for(int i=0; i<SEC_SIZE;i++)
     delete[] arr[i];
 
 delete[] arr;
-
 }
+
 
 
 template<typename TYPE, int SIZE, int SEC_SIZE>
@@ -27,23 +29,19 @@ Array<TYPE, SIZE, SEC_SIZE>::Array()
 template<typename TYPE, int SIZE, int SEC_SIZE>
 bool Array<TYPE,SIZE, SEC_SIZE>::check_array() 
 {
-
-    bool is_truth=true;
     for(int j=0; j<SEC_SIZE; j++)
         {
-        for(int i=0;i<SIZE;i++)
+        for(int i=0;i<SIZE;++i)
             {
-                if(arr[j][i]<=arr[j][i+1])
-                    is_truth;
-                        else
-                            {
-                                std::cerr <<"Zle posortowana tablica!";
-                                is_truth = !is_truth;
-                                exit(EXIT_FAILURE);
-                            }
+                if(arr[j][i-1]>arr[j][i])
+                {
+                    std:: cerr << "Niepoprawnie posortowana tablica!"<< std::endl;
+                    exit(EXIT_FAILURE);
+                }
             }
-        }
-    return is_truth;
+        }      
+    std::cout <<"Tablica posortowana poprawnie!" << std::endl;
+    return true; 
 }
 
 
@@ -60,7 +58,6 @@ void Array<TYPE,SIZE, SEC_SIZE>::separate_and_merge(int begin, int middle, int e
     for(int i=0;i<size_left; i++)
     {
         arr1[count][i]=arr[count][begin+i];
-        
     }
     
 
@@ -111,9 +108,6 @@ void Array<TYPE,SIZE, SEC_SIZE>::separate_and_merge(int begin, int middle, int e
                 begin1++;
         }
 
-
-
-
     }
 
 
@@ -139,27 +133,104 @@ void Array<TYPE,SIZE, SEC_SIZE>::merge_sorting(int begin,int end, TYPE** arr1, T
 
 
 template<typename TYPE, int SIZE, int SEC_SIZE>
-void Array<TYPE,SIZE, SEC_SIZE>::quickSort(int begin,int end)
+void Array<TYPE,SIZE, SEC_SIZE>::quickSort(int begin, int end, int count)
 {
-int pivot = end;
+
+        
+int middle = (begin+end)/2;
+int pivot = arr[count][middle]; //wartosc srodka
+int j = begin;
+int marker = end;
+int tmp;
+//podpisanie pod tablice orginalnej tablicy
 
 
+while(j<=marker)
+    {
+        while(arr[count][marker]>pivot) //szuka mniejszej na prawo od pivota
+            marker--;
+                while(arr[count][j] < pivot ) //szuka wiekszej wartosci na lewo od pivota
+                        j++;     
+                    if(j<=marker)  //zamienia wyszukane wartosci miejscami
+                     {
+                        tmp=arr[count][marker];
+                        arr[count][marker]=arr[count][j];
+                        arr[count][j]=tmp;
+                        marker--;
+                        j++;
+                     }
+    }
+
+if(begin < marker) 
+quickSort(begin, marker, count); //rekurencyjne wywolanie dla lewej strony od piwota
+if(j < end)
+quickSort(j, end, count); //rekurencyjne wywolanie dla prawej strony od piwota
 }
-
 
 template<typename TYPE, int SIZE, int SEC_SIZE>
-void Array<TYPE,SIZE, SEC_SIZE>::divideArray(int begin, int end)
+void Array<TYPE,SIZE, SEC_SIZE>::ShellSort(int count)
+{
+    int distance=SIZE/2;
+    int d_tmp;
+    int j;
+    int tmp;
+    while(distance>0)
+    {
+        d_tmp=distance;
+        while( d_tmp<SIZE)      
+        {
+            tmp=arr[count][d_tmp];
+            for(j=d_tmp ; j>=distance && arr[count][j-distance]>tmp;j=j-distance)
+                {
+                arr[count][j]=arr[count][j-distance];                
+                }
+            arr[count][j]=tmp;
+            d_tmp++;
+        }
+        distance = distance/2;
+    }
+}  
+
+/*
+template<typename TYPE, int SIZE, int SEC_SIZE>
+void Array<TYPE,SIZE, SEC_SIZE>::ShellSort(int begin, int end,int count)
 {
 
+int tmp;
+int distance=end/2;
+int i=begin;
+int j = end;
+int middle = (begin+end)/2;
 
+while(distance>0)
+    {       
+    while(i+distance<end)
+            {       
+                if(arr[count][i]>arr[count][i+distance])
+                    {
+                    tmp = arr[count][i];
+                        arr[count][i] = arr[count][i+distance];
+                            arr[count][i+distance] = tmp;
+                      
+                        while(i-distance>=begin && arr[count][i]<arr[count][i-distance])
+                            {
+                            tmp = arr[count][i];
+                                arr[count][i] = arr[count][i-distance];
+                                    arr[count][i-distance] = tmp;
+                                        i--;  
+                            }
+                       i++;   
 
-
-
+                    }
+                    else
+                        i++;
+            }
+            distance = distance/2;
+        i = begin;
+    }
 }
 
-
-
-
+*/
 
 template<typename TYPE, int SIZE, int SEC_SIZE>
 void Array<TYPE,SIZE, SEC_SIZE>::DisplayArray()
@@ -192,34 +263,56 @@ void Array<TYPE,SIZE, SEC_SIZE>::getRandomArray()
             }   
     }
 
+
+
 template<typename TYPE, int SIZE, int SEC_SIZE>
 void Array<TYPE,SIZE, SEC_SIZE>::reverse_array() 
 {
-    int size = SIZE-1;
-    TYPE tmp[SEC_SIZE][SIZE];    //tymczasowa tablica
 
+int i=0;
+int k=SIZE-1;
+int middle = SIZE/2;
 
-    for(int j=0; j<SEC_SIZE; j++)
-            {    
-                for(int i=0;i<SIZE;i++) //podpisanie wartosci do tamczasowej tablicy
-                    tmp[j][i]=arr[j][i];
-            }
-
-        for(int j=0; j<SEC_SIZE; j++)
-        {
-                    for(int i=0;i<SIZE;i++)
-                        {
-                            arr[j][i]=tmp[j][size];
-                                size--;
-                        }
-        }
+for(int j=0;j<SEC_SIZE;j++)
+    {
+        int i=0;
+        int k=SIZE-1;
+            while(k>=middle && i<middle)
+                {
+                    std::swap(arr[j][i],arr[j][k]);
+                    k--;
+                    i++;
+                }
+        
+    }
 }
 
 
 
 
+template<typename TYPE>
+void DeleteArray(TYPE** arr_, const int size2)
+{
+for(int i=0; i<size2;i++)
+    delete[] arr_[i];
+
+delete[] arr_;
+
+}
 
 
+
+template<typename TYPE> 
+TYPE** CreateArray(const int size, const int size2)
+{
+
+int** arr_;
+arr_ = new int*[size2];
+        for(int i=0;i< size2;i++)
+            arr_[i]= new int[size];
+
+return arr_;
+}
 
 
 
